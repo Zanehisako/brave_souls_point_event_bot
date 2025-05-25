@@ -8,9 +8,11 @@ pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tessera
 
 pyautogui.PAUSE = 2
 
+dir_path = 'C:/Users/yassi/OneDrive/Documents/scripts/brave_souls_point_event_bot/images/'
+
 def get_tickets():
-        pyautogui.screenshot('tickets_number.png',region=[920,20,40,30])
-        ticketsNumber = int(pytesseract.image_to_string('tickets_number.png',lang='eng',config='--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789'))
+        pyautogui.screenshot(dir_path+'tickets_number.png',region=[920,20,40,30])
+        ticketsNumber = int(pytesseract.image_to_string(dir_path+'tickets_number.png',lang='eng',config='--psm 10 --oem 3 -c tessedit_char_whitelist=0123456789'))
         print("ticketsNumber:",ticketsNumber)
         return ticketsNumber
     # except:
@@ -21,14 +23,14 @@ def single_run_point_event():
     while state != -1:
         match state:
             case 0:
-                nightmareButtonLocationX,nightmareButtonLocationY = pyautogui.locateCenterOnScreen("Nightmare_event_button.png",confidence=0.5)
+                nightmareButtonLocationX,nightmareButtonLocationY = pyautogui.locateCenterOnScreen(dir_path+"Nightmare_event_button.png",confidence=0.5)
                 try:
                     pyautogui.click(x=nightmareButtonLocationX,y=nightmareButtonLocationY)
                     state=1
                 except:
                     print("didnt find the nightmare button")
             case 1:
-                prepareForQuestLocationX,prepareForQuestLocationY = pyautogui.locateCenterOnScreen("prepare_for_quest_button.png",confidence=0.5)
+                prepareForQuestLocationX,prepareForQuestLocationY = pyautogui.locateCenterOnScreen(dir_path+"prepare_for_quest_button.png",confidence=0.5)
                 try:
                     pyautogui.click(x=prepareForQuestLocationX,y=prepareForQuestLocationY)
                     state=2
@@ -36,17 +38,17 @@ def single_run_point_event():
                     print("didnt find the prepare for quest button")
             case 2:
                 try:
-                    startQuestButtonLocationX,startQuestButtonLocationY = pyautogui.locateCenterOnScreen("start_quest_button.png",confidence=0.5)
+                    startQuestButtonLocationX,startQuestButtonLocationY = pyautogui.locateCenterOnScreen(dir_path+"start_quest_button.png",confidence=0.5)
                     pyautogui.click(x=startQuestButtonLocationX,y=startQuestButtonLocationY)
                     state=3
                 except:
                     print("didnt find the start for quest button")
             case 3:
                 try:
-                    pyautogui.locateCenterOnScreen("boss_battle.png",confidence=0.5)
+                    pyautogui.locateCenterOnScreen(dir_path+"boss_battle.png",confidence=0.5)
                     time.sleep(3.5)
                     try:
-                        ultimateLocationX,ultimateLocationY = pyautogui.locateCenterOnScreen("ultimate_button.png",confidence=0.5)
+                        ultimateLocationX,ultimateLocationY = pyautogui.locateCenterOnScreen(dir_path+"ultimate_button.png",confidence=0.5)
                         pyautogui.click(x=ultimateLocationX,y=ultimateLocationY,clicks=2,interval=0.5)
                     except:
                         print("didnt find the ultimate button")
@@ -55,10 +57,10 @@ def single_run_point_event():
                     print("still no boss")
             case 4:
                 try:
-                    tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen("TAP_SCREEN.png",confidence=0.5)
+                    tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen(dir_path+"TAP_SCREEN.png",confidence=0.5)
                     pyautogui.click(x=tapScreenLocationX,y=tapScreenLocationY,clicks=2,interval=1)
                     print("taped once")
-                    tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen("TAP_SCREEN.png",confidence=0.5)
+                    tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen(dir_path+"TAP_SCREEN.png",confidence=0.5)
                     pyautogui.click(x=tapScreenLocationX,y=tapScreenLocationY)
                     state=5
                 except:
@@ -66,11 +68,11 @@ def single_run_point_event():
 
             case 5:
                 try:
-                    closeLocationX,closeLocationY = pyautogui.locateCenterOnScreen("close_button.png",confidence=0.5)
+                    closeLocationX,closeLocationY = pyautogui.locateCenterOnScreen(dir_path+"close_button.png",confidence=0.5)
                     pyautogui.click(x=closeLocationX,y=closeLocationY)
                     print("clicked CLOSE once")
                     try:
-                        closeLocationX,closeLocationY = pyautogui.locateCenterOnScreen("close_button.png",confidence=0.5)
+                        closeLocationX,closeLocationY = pyautogui.locateCenterOnScreen(dir_path+"close_button.png",confidence=0.5)
                         pyautogui.click(x=closeLocationX,y=closeLocationY)
                     except:
                         print("no second Lottery rewards")
@@ -80,7 +82,7 @@ def single_run_point_event():
 
             case 6:
                 try:
-                    eventsLocationX,eventsLocationY = pyautogui.locateCenterOnScreen("events_button.png",confidence=0.5)
+                    eventsLocationX,eventsLocationY = pyautogui.locateCenterOnScreen(dir_path+"events_button.png",confidence=0.5)
                     pyautogui.click(x=eventsLocationX,y=eventsLocationY)
                     state=-1
                 except:
@@ -92,7 +94,7 @@ def multiple_runs():
     numberTickets =get_tickets()
     while(noTicketsLeft != True):
 
-        time.sleep(3)
+        time.sleep(5)
         numberTickets =get_tickets()
 
         if (numberTickets>=10):
@@ -109,7 +111,7 @@ def multiple_runs():
 
             try:
                 #checks if there are no ticket gifts
-                pyautogui.locateCenterOnScreen("no_tickets.png",minSearchTime=3,confidence=0.5)
+                pyautogui.locateCenterOnScreen(dir_path+"no_tickets.png",minSearchTime=3,confidence=0.5)
                 print("no more tickets")
 
                 #clicks the close button
