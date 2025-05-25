@@ -91,11 +91,22 @@ def multiple_runs():
     noTicketsLeft= False
     numberTickets =get_tickets()
     while(noTicketsLeft != True):
+
+        time.sleep(3)
+        numberTickets =get_tickets()
+
         if (numberTickets>=10):
             single_run_point_event()
-            time.sleep(3)
-            numberTickets =get_tickets()
         else:
+            #clicks the menu button
+            pyautogui.click(x=1875,y=60)
+
+            #clicks the gift-box button
+            pyautogui.click(x=1825,y=350)
+
+            #clicks the Soul Tickets menu button
+            pyautogui.click(x=765,y=165)
+
             try:
                 #checks if there are no ticket gifts
                 pyautogui.locateCenterOnScreen("no_tickets.png",minSearchTime=3,confidence=0.5)
@@ -107,12 +118,6 @@ def multiple_runs():
                 noTicketsLeft=True
 
             except:
-                #clicks the menu button
-                pyautogui.click(x=1875,y=60)
-
-                #clicks the gift-box button
-                pyautogui.click(x=1825,y=350)
-
                 #clicks the claim all button
                 pyautogui.click(x=400,y=970)
 
@@ -132,5 +137,4 @@ def multiple_runs():
 print("starting the script after 5 sec")
 time.sleep(5)
 print("script started !")
-#single_run_point_event()
 multiple_runs()
