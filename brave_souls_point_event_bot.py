@@ -1,6 +1,7 @@
 import pyautogui
 import time
 import pytesseract
+import os
 
 from PIL import Image
 
@@ -145,8 +146,32 @@ def multiple_runs():
     
     print("out of tickets!\nEnded the runs")
 
+def start_bleach():
+    os.startfile(r"C:/Users/yassi/OneDrive/Desktop/BLEACH.url")
+    foundMainMenu = False
+    while(foundMainMenu!=True):
+        try:
+            mainX,mainY = pyautogui.locateCenterOnScreen(dir_path+"game_start.png")
+            pyautogui.click(x=mainX,y=mainY)
+            pyautogui.click(x=960,y=540,clicks=10,interval=3)
+            foundMainMenu=True
+        except:
+            time.sleep(2)
+    try:
+        soloButtonX,soloButtonY= pyautogui.locateCenterOnScreen(dir_path+"solo_button.png",confidence=0.5)
+        pyautogui.click(x=soloButtonX,y=soloButtonY)
+        try:
+            eventsButtonX,eventsButtonY= pyautogui.locateCenterOnScreen(dir_path+"events_main_button.png",confidence=0.5)
+            pyautogui.click(x=eventsButtonX,y=eventsButtonY)
+        except:
+            print("didnt find the main events button")
+
+    except:
+        print("didnt find solo button")
 
 print("starting the script after 5 sec")
 time.sleep(5)
 print("script started !")
-multiple_runs()
+start_bleach()
+# multiple_runs()
+
