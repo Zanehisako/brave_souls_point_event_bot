@@ -57,9 +57,19 @@ def single_run_point_event():
                     print("still no boss")
             case 4:
                 try:
+                    #this screen rarely shows up but when it does it fucks everything up
+                    pyautogui.locateCenterOnScreen(dir_path+"friend_request.png",minSearchTime=3)
+                    pyautogui.click(x=1240,y=825)
+                    
+                    #request sent screen
+                    pyautogui.locateCenterOnScreen(dir_path+"request_sent.png")
+                    pyautogui.click(x=965,y=750)
+                except:
+                    print("no friend request")
+
+                try:
                     tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen(dir_path+"TAP_SCREEN.png",confidence=0.5)
                     pyautogui.click(x=tapScreenLocationX,y=tapScreenLocationY,clicks=2,interval=1)
-                    print("taped once")
                     tapScreenLocationX,tapScreenLocationY = pyautogui.locateCenterOnScreen(dir_path+"TAP_SCREEN.png",confidence=0.5)
                     pyautogui.click(x=tapScreenLocationX,y=tapScreenLocationY)
                     state=5
