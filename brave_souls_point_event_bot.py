@@ -58,11 +58,11 @@ def single_run_point_event():
             case 4:
                 try:
                     #this screen rarely shows up but when it does it fucks everything up
-                    pyautogui.locateCenterOnScreen(dir_path+"friend_request.png",minSearchTime=3)
+                    pyautogui.locateCenterOnScreen(dir_path+"friend_request.PNG",minSearchTime=3,confidence=0.5)
                     pyautogui.click(x=1240,y=825)
                     
                     #request sent screen
-                    pyautogui.locateCenterOnScreen(dir_path+"request_sent.png")
+                    pyautogui.locateCenterOnScreen(dir_path+"request_sent.PNG",confidence=0.5)
                     pyautogui.click(x=965,y=750)
                 except:
                     print("no friend request")
