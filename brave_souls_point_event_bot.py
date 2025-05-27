@@ -7,7 +7,7 @@ from PIL import Image
 
 pytesseract.pytesseract.tesseract_cmd = r'C:/Program Files/Tesseract-OCR/tesseract'
 
-pyautogui.PAUSE = 2
+pyautogui.PAUSE = 3
 
 dir_path = 'C:/Users/yassi/OneDrive/Documents/scripts/brave_souls_point_event_bot/images/'
 
@@ -148,21 +148,66 @@ def multiple_runs():
 
 def start_bleach():
     os.startfile(r"C:/Users/yassi/OneDrive/Desktop/BLEACH.url")
-    foundMainMenu = False
-    while(foundMainMenu!=True):
-        try:
-            mainX,mainY = pyautogui.locateCenterOnScreen(dir_path+"game_start.png")
-            pyautogui.click(x=mainX,y=mainY)
-            pyautogui.click(x=960,y=540,clicks=10,interval=3)
-            foundMainMenu=True
-        except:
-            time.sleep(2)
+    state = 0
+    while(state!=-1):
+        match state:
+            case 0:
+                try:
+                    mainX,mainY = pyautogui.locateCenterOnScreen(dir_path+"game_start.png",confidence=0.5)
+                    pyautogui.click(x=mainX,y=mainY)
+                    try:
+                        downloadButtonX,downloadButtonY = pyautogui.locateCenterOnScreen(dir_path+"yes_download_main_menu.png",confidence=0.5)
+                        pyautogui.click(x=downloadButtonX,y=downloadButtonY)
+                    except:
+                        print("no download to do")
+                    time.sleep(5)
+                    state = 1
+
+                except:
+                    time.sleep(5)
+
+            #this case is for checking if there are any daily rewards
+            case 1:
+                try:
+                    closeNewsX,closeNewsY = pyautogui.locateCenterOnScreen(dir_path+"close_news_button.png",minSearchTime=3,confidence=0.5)
+                    pyautogui.click(x=closeNewsX,y=closeNewsY)
+                except:
+                    print("no news")
+
+                try:
+                    pyautogui.locateCenterOnScreen(dir_path+"daily_ticket_present.png",minSearchTime=2,confidence=0.5)
+                    skipButtonX,skipButtonY = pyautogui.locateCenterOnScreen(dir_path+"skip_button.png",minSearchTime=2,confidence=0.5)
+                    pyautogui.click(x=skipButtonX,y=skipButtonY)
+                except:
+                    print("no tickets bonus")
+
+                try:
+                    loginBonusX,loginBonusY = pyautogui.locateCenterOnScreen(dir_path+"login_bonus.png",minSearchTime=2,confidence=0.5)
+                    pyautogui.click(x=loginBonusX,y=loginBonusY)
+                except:
+                    print("no daily login rewards")
+
+                state=-1
+
+    #this selects the event 
     try:
         soloButtonX,soloButtonY= pyautogui.locateCenterOnScreen(dir_path+"solo_button.png",confidence=0.5)
         pyautogui.click(x=soloButtonX,y=soloButtonY)
         try:
             eventsButtonX,eventsButtonY= pyautogui.locateCenterOnScreen(dir_path+"events_main_button.png",confidence=0.5)
             pyautogui.click(x=eventsButtonX,y=eventsButtonY)
+            time.sleep(10)
+            try:
+                currentEventButtonX,currentEventButtonY= pyautogui.locateCenterOnScreen(dir_path+"current_point_event.png",confidence=0.5)
+                pyautogui.click(x=currentEventButtonX,y=currentEventButtonY)
+                try:
+                    questButtonX,questButtonY= pyautogui.locateCenterOnScreen(dir_path+"quest_to_be_played.png",confidence=0.9)
+                    pyautogui.click(x=questButtonX,y=questButtonY)
+                except:
+                    print("didnt find the quest to play")
+            except:
+                print("didnt find the current event to play")
+
         except:
             print("didnt find the main events button")
 
@@ -173,5 +218,5 @@ print("starting the script after 5 sec")
 time.sleep(5)
 print("script started !")
 start_bleach()
-# multiple_runs()
+multiple_runs()
 
