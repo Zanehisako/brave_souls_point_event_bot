@@ -145,6 +145,7 @@ def multiple_runs():
 
     
     print("out of tickets!\nEnded the runs")
+    time.sleep(5)
 
 def start_bleach():
     os.startfile(r"C:/Users/yassi/OneDrive/Desktop/BLEACH.url")
@@ -214,9 +215,42 @@ def start_bleach():
     except:
         print("didnt find solo button")
 
+def exitGame():
+    try:
+        pyautogui.press('esc')
+        foundQuestMenu = False
+        while(foundQuestMenu!=True):
+            try:
+                pyautogui.locateCenterOnScreen(dir_path+"solo_quest_menu.png",confidence=0.5)
+                pyautogui.press('esc')
+                foundQuestMenu = True
+            except:
+                time.sleep(1)
+
+        okButtonX,okButtonY = pyautogui.locateCenterOnScreen(dir_path+"ok_button.png",confidence=0.5)
+        pyautogui.click(x=okButtonX,y=okButtonY)
+
+        foundMainMenu= False
+        while(foundMainMenu!=True):
+            try:
+                pyautogui.locateCenterOnScreen(dir_path+"game_start.png",confidence=0.6)
+                pyautogui.press('esc')
+                foundMainMenu= True
+            except:
+                time.sleep(1)
+
+        okButtonX,okButtonY = pyautogui.locateCenterOnScreen(dir_path+"ok_button.png",confidence=0.5)
+        pyautogui.click(x=okButtonX,y=okButtonY)
+        
+    except:
+        print("Error closing the game")
+
+
+
 print("starting the script after 5 sec")
 time.sleep(5)
 print("script started !")
 start_bleach()
 multiple_runs()
+exitGame()
 
