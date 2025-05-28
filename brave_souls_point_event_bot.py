@@ -104,7 +104,7 @@ def multiple_runs():
     noTicketsLeft= False
     numberTickets =get_tickets()
     while(noTicketsLeft != True):
-
+        imageOnScreen(dir_path+"loading_main_menu.png")
         time.sleep(5)
         numberTickets =get_tickets()
 
@@ -154,10 +154,14 @@ def start_bleach():
         match state:
             case 0:
                 try:
-                    mainX,mainY = pyautogui.locateCenterOnScreen(dir_path+"game_start.png",confidence=0.5)
+                    imageOnScreen(dir_path+"loading_main_menu.png")
+                    time.sleep(4)
+                    mainX,mainY = pyautogui.locateCenterOnScreen(dir_path+"game_start.png",confidence=0.6)
                     pyautogui.click(x=mainX,y=mainY)
+                    time.sleep(4)
                     try:
-                        downloadButtonX,downloadButtonY = pyautogui.locateCenterOnScreen(dir_path+"yes_download_main_menu.png",confidence=0.5)
+                        downloadButtonX,downloadButtonY = pyautogui.locateCenterOnScreen(dir_path+"yes_download_main_menu.png",confidence=0.9)
+                        print("found download button")
                         pyautogui.click(x=downloadButtonX,y=downloadButtonY)
                     except:
                         print("no download to do")
@@ -165,7 +169,7 @@ def start_bleach():
                     state = 1
 
                 except:
-                    time.sleep(5)
+                    print('didnt find main screen')
 
             #this case is for checking if there are any daily rewards
             case 1:
@@ -180,6 +184,7 @@ def start_bleach():
                     skipButtonX,skipButtonY = pyautogui.locateCenterOnScreen(dir_path+"skip_button.png",minSearchTime=2,confidence=0.5)
                     pyautogui.click(x=skipButtonX,y=skipButtonY)
                 except:
+                    pyautogui.click(x=960,y=540)
                     print("no tickets bonus")
 
                 try:
@@ -188,32 +193,34 @@ def start_bleach():
                 except:
                     print("no daily login rewards")
 
-                state=-1
 
-    #this selects the event 
-    try:
-        soloButtonX,soloButtonY= pyautogui.locateCenterOnScreen(dir_path+"solo_button.png",confidence=0.5)
-        pyautogui.click(x=soloButtonX,y=soloButtonY)
-        try:
-            eventsButtonX,eventsButtonY= pyautogui.locateCenterOnScreen(dir_path+"events_main_button.png",confidence=0.5)
-            pyautogui.click(x=eventsButtonX,y=eventsButtonY)
-            time.sleep(10)
-            try:
-                currentEventButtonX,currentEventButtonY= pyautogui.locateCenterOnScreen(dir_path+"current_point_event.png",confidence=0.5)
-                pyautogui.click(x=currentEventButtonX,y=currentEventButtonY)
+                #this selects the event 
                 try:
-                    questButtonX,questButtonY= pyautogui.locateCenterOnScreen(dir_path+"quest_to_be_played.png",confidence=0.9)
-                    pyautogui.click(x=questButtonX,y=questButtonY)
+                    soloButtonX,soloButtonY= pyautogui.locateCenterOnScreen(dir_path+"solo_button.png",confidence=0.5)
+                    pyautogui.click(x=soloButtonX,y=soloButtonY)
+                    try:
+                        eventsButtonX,eventsButtonY= pyautogui.locateCenterOnScreen(dir_path+"events_main_button.png",confidence=0.5)
+                        pyautogui.click(x=eventsButtonX,y=eventsButtonY)
+                        time.sleep(10)
+                        try:
+                            currentEventButtonX,currentEventButtonY= pyautogui.locateCenterOnScreen(dir_path+"current_point_event.png",confidence=0.5)
+                            pyautogui.click(x=currentEventButtonX,y=currentEventButtonY)
+                            try:
+                                questButtonX,questButtonY= pyautogui.locateCenterOnScreen(dir_path+"quest_to_be_played.png",confidence=0.9)
+                                pyautogui.click(x=questButtonX,y=questButtonY)
+
+                                state=-1
+
+                            except:
+                                print("didnt find the quest to play")
+                        except:
+                            print("didnt find the current event to play")
+
+                    except:
+                        print("didnt find the main events button")
+
                 except:
-                    print("didnt find the quest to play")
-            except:
-                print("didnt find the current event to play")
-
-        except:
-            print("didnt find the main events button")
-
-    except:
-        print("didnt find solo button")
+                    print("didnt find solo button")
 
 def exitGame():
     try:
@@ -244,6 +251,22 @@ def exitGame():
         
     except:
         print("Error closing the game")
+
+def imageOnScreen(image):
+    isOnscreen= False
+    try:
+        pyautogui.locateCenterOnScreen(dir_path+image,confidence=0.5)
+        print("found image")
+        while(isOnscreen!=False):
+            try:
+                pyautogui.locateCenterOnScreen(dir_path+image,confidence=0.5)
+                isOnscreen=True
+            except:
+                isOnscreen=False
+    except:
+        time.sleep(0.5)
+
+
 
 
 
